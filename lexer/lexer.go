@@ -28,6 +28,8 @@ func (l *Lexer) readChar() {
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
+	l.skipWhitespace()
+
 	switch l.ch {
 	case '=':
 		tok = newToken(token.ASSIGN, l.ch)
@@ -62,6 +64,12 @@ func (l *Lexer) NextToken() token.Token {
 	return tok
 }
 
+func (l *Lexer) skipWhitespace() {
+	for isWhitespace(l.ch) {
+		l.readChar()
+	}
+}
+
 func (l *Lexer) readIdentifier() string {
 	position := l.position
 	for isLetter(l.ch) {
@@ -72,6 +80,15 @@ func (l *Lexer) readIdentifier() string {
 
 func isLetter(ch byte) bool {
 	return 'a' <= ch && ch >= 'z' || 'A' <= ch && ch >= 'Z' || ch == '_'
+}
+
+func isWhitespace(ch byte) bool {
+	switch ch {
+	case ' ', '\t', '\n', '\r':
+		return true
+	default:
+		return false
+	}
 }
 
 func newToken(tokenType token.TokenType, ch byte) token.Token {
