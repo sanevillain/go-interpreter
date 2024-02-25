@@ -33,18 +33,23 @@ func TestNextToken(t *testing.T) {
 		expectedType    token.TokenType
 		expectedLiteral string
 	}{
+		// let five = 5;
 		{token.LET, "let"},
 		{token.IDENT, "five"},
 		{token.ASSIGN, "="},
 		{token.INT, "5"},
 		{token.SEMICOLON, ";"},
 
+		// let five = 10;
 		{token.LET, "let"},
 		{token.IDENT, "ten"},
 		{token.ASSIGN, "="},
 		{token.INT, "10"},
 		{token.SEMICOLON, ";"},
 
+		// let add = fn(x, y) {
+		//   x + y;
+		// };
 		{token.LET, "let"},
 		{token.IDENT, "add"},
 		{token.ASSIGN, "="},
@@ -62,6 +67,7 @@ func TestNextToken(t *testing.T) {
 		{token.RBRACE, "}"},
 		{token.SEMICOLON, ";"},
 
+		// let result = add(five, ten);
 		{token.LET, "let"},
 		{token.IDENT, "result"},
 		{token.ASSIGN, "="},
@@ -73,6 +79,7 @@ func TestNextToken(t *testing.T) {
 		{token.RPAREN, ")"},
 		{token.SEMICOLON, ";"},
 
+		// !-/*5;
 		{token.BANG, "!"},
 		{token.MINUS, "-"},
 		{token.SLASH, "/"},
@@ -80,6 +87,7 @@ func TestNextToken(t *testing.T) {
 		{token.INT, "5"},
 		{token.SEMICOLON, ";"},
 
+		// 5 < 10 > 5;
 		{token.INT, "5"},
 		{token.LT, "<"},
 		{token.INT, "10"},
@@ -87,6 +95,11 @@ func TestNextToken(t *testing.T) {
 		{token.INT, "5"},
 		{token.SEMICOLON, ";"},
 
+		// if (5 < 10) {
+		//     return true;
+		// } else {
+		//     return false;
+		// }
 		{token.IF, "if"},
 		{token.LPAREN, "("},
 		{token.INT, "5"},
@@ -105,11 +118,13 @@ func TestNextToken(t *testing.T) {
 		{token.SEMICOLON, ";"},
 		{token.RBRACE, "}"},
 
+		// 10 == 10;
 		{token.INT, "10"},
 		{token.EQ, "=="},
 		{token.INT, "10"},
 		{token.SEMICOLON, ";"},
 
+		// 10 != 9;
 		{token.INT, "10"},
 		{token.NOT_EQ, "!="},
 		{token.INT, "9"},
