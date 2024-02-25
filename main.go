@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"os"
+	"sanevillain/go-interpreter/repl"
+)
 
 func main() {
-	fmt.Println("Hello World")
+	repl.Start(os.Stdin, os.Stdout)
 }
