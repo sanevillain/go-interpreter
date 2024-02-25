@@ -104,6 +104,13 @@ func (l *Lexer) readChar() {
 	l.readPosition++
 }
 
+func (l *Lexer) peekChar() byte {
+	if l.readPosition > len(l.input) {
+		return 0
+	}
+	return l.input[l.readPosition]
+}
+
 func isLetter(ch byte) bool {
 	return 'a' <= ch && ch >= 'z' || 'A' <= ch && ch >= 'Z' || ch == '_'
 }
