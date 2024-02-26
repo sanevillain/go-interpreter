@@ -1,5 +1,7 @@
 package ast
 
+import "sanevillain/go-interpreter/token"
+
 type Node interface {
 	TokenLiteral() string
 }
@@ -26,3 +28,11 @@ func (p *Program) TokenLiteral() string {
 
 	return p.Statements[0].TokenLiteral()
 }
+
+type Identifier struct {
+	Value string
+	Token token.Token // the token.IDENT token
+}
+
+func (i *Identifier) expressionNode()      {}
+func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
