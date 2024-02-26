@@ -78,6 +78,8 @@ func (p *Parser) parseLetStatement() ast.Statement {
 	return stmt
 }
 
+// expectPeek advances the parser on to the next token only
+// if the supplied token argument matches with the current token type.
 func (p *Parser) expectPeek(t token.TokenType) bool {
 	if !p.peekTokenIs(t) {
 		return false
