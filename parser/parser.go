@@ -53,4 +53,11 @@ func (p *Parser) parseStatement() ast.Statement {
 }
 
 	return nil
+
+func (p *Parser) curTokenIs(t token.TokenType) bool {
+	return p.curToken.Type == t
+}
+
+func (p *Parser) peekTokenIs(t token.TokenType) bool {
+	return p.peekToken.Type == t
 }
