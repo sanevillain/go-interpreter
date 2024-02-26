@@ -54,6 +54,15 @@ func (p *Parser) parseStatement() ast.Statement {
 
 	return nil
 
+func (p *Parser) expectPeek(t token.TokenType) bool {
+	if !p.peekTokenIs(t) {
+		return false
+	}
+
+	p.nextToken()
+	return true
+}
+
 func (p *Parser) curTokenIs(t token.TokenType) bool {
 	return p.curToken.Type == t
 }
