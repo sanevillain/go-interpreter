@@ -42,5 +42,15 @@ func (p *Parser) ParseProgram() *ast.Program {
 
 	return program
 }
+
+func (p *Parser) parseStatement() ast.Statement {
+	switch p.curToken.Type {
+	case token.LET:
+		return p.parseLetStatement()
+	default:
+		return nil
+	}
+}
+
 	return nil
 }
