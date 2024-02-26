@@ -52,7 +52,31 @@ func (p *Parser) parseStatement() ast.Statement {
 	}
 }
 
-	return nil
+func (p *Parser) parseLetStatement() ast.Statement {
+	stmt := &ast.LetStatement{Token: p.curToken}
+
+	// consume <identifier>
+	if !p.expectPeek(token.IDENT) {
+		return nil
+	}
+
+	stmt.Name = &ast.Identifier{
+		Token: p.curToken,
+		Value: p.curToken.Literal,
+	}
+
+	// consume <=>
+	if !p.expectPeek(token.ASSIGN) {
+		return nil
+	}
+
+	// ignore expressions for now and just consume until <;>
+	for !p.curTokenIs(token.SEMICOLON) {
+		p.nextToken()
+	}
+
+	return stmt
+}
 
 func (p *Parser) expectPeek(t token.TokenType) bool {
 	if !p.peekTokenIs(t) {
