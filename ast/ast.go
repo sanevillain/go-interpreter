@@ -29,15 +29,11 @@ func (p *Program) TokenLiteral() string {
 	return p.Statements[0].TokenLiteral()
 }
 
-// LetStatement is a statement of the form:
-//
-//	let <identifier> = <expr>;
-//
-// where the left hand side is an identifier and the right hand side is an expression.
+// LetStatement is of the form: let <identifier> = <expr>;
 type LetStatement struct {
-	Name  *Identifier // left hand side
-	Value Expression  // right hand side
-	Token token.Token // the token.LET token
+	Name  *Identifier // lfs
+	Value Expression  // rhs
+	Token token.Token // the 'let' token
 }
 
 func (ls *LetStatement) statementNode()       {}
