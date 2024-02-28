@@ -43,6 +43,15 @@ type LetStatement struct {
 func (ls *LetStatement) statementNode()       {}
 func (ls *LetStatement) TokenLiteral() string { return ls.Token.Literal }
 
+// ReturnStatement is of the form: return <expr>;
+type ReturnStatement struct {
+	ReturnValue Expression
+	Token       token.Token // the 'return' token
+}
+
+func (rs *ReturnStatement) statementNode()       {}
+func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
+
 type Identifier struct {
 	Value string
 	Token token.Token // the token.IDENT token
