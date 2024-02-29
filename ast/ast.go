@@ -78,6 +78,21 @@ type ReturnStatement struct {
 func (rs *ReturnStatement) statementNode()       {}
 func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
 
+func (rs *ReturnStatement) String() string {
+	var b strings.Builder
+
+	b.WriteString(rs.TokenLiteral())
+	b.WriteString(" ")
+
+	if rs.ReturnValue != nil {
+		b.WriteString(rs.ReturnValue.String())
+	}
+
+	b.WriteString(";")
+
+	return b.String()
+}
+
 type ExpressionStatement struct {
 	Expression Expression
 	Token      token.Token // the first token of the expression
