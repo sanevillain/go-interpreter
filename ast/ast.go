@@ -1,6 +1,9 @@
 package ast
 
-import "sanevillain/go-interpreter/token"
+import (
+	"sanevillain/go-interpreter/token"
+	"strings"
+)
 
 type Node interface {
 	TokenLiteral() string
@@ -20,6 +23,16 @@ type Expression interface {
 // Program is the root node of every AST the parser produces.
 type Program struct {
 	Statements []Statement // Every program is a series of statements.
+}
+
+func (p *Program) String() string {
+	var b strings.Builder
+
+	for _, stmt := range p.Statements {
+		b.WriteString(stmt.String())
+	}
+
+	return b.String()
 }
 
 func (p *Program) TokenLiteral() string {
