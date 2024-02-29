@@ -53,6 +53,22 @@ type LetStatement struct {
 func (ls *LetStatement) statementNode()       {}
 func (ls *LetStatement) TokenLiteral() string { return ls.Token.Literal }
 
+func (ls *LetStatement) String() string {
+	var b strings.Builder
+
+	b.WriteString(ls.TokenLiteral())
+	b.WriteString(" ")
+	b.WriteString(ls.Name.String())
+
+	if ls.Value != nil {
+		b.WriteString(ls.Value.String())
+	}
+
+	b.WriteString(";")
+
+	return b.String()
+}
+
 // ReturnStatement is of the form: return <expr>;
 type ReturnStatement struct {
 	ReturnValue Expression
