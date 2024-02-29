@@ -59,6 +59,7 @@ func (ls *LetStatement) String() string {
 	b.WriteString(ls.TokenLiteral())
 	b.WriteString(" ")
 	b.WriteString(ls.Name.String())
+	b.WriteString(" = ")
 
 	if ls.Value != nil {
 		b.WriteString(ls.Value.String())
