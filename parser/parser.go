@@ -43,6 +43,8 @@ func New(l *lexer.Lexer) *Parser {
 		prefixParseFuncs: map[token.TokenType]prefixParseFn{},
 	}
 
+	p.registerPrefix(token.IDENT, p.parseIdentifier)
+
 	p.nextToken() // sets peekToken to the first token
 	p.nextToken() // sets curToken to the first token
 
