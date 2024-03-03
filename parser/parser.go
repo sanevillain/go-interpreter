@@ -37,6 +37,14 @@ func New(l *lexer.Lexer) *Parser {
 	return p
 }
 
+func (p *Parser) registerPrefix(tokenType token.TokenType, fn prefixParseFn) {
+	p.prefixParseFuncs[tokenType] = fn
+}
+
+func (p *Parser) registerInfix(tokenType token.TokenType, fn infixParseFn) {
+	p.infixParseFuncs[tokenType] = fn
+}
+
 func (p *Parser) Errors() []string {
 	return p.errors
 }
