@@ -38,8 +38,9 @@ type Parser struct {
 
 func New(l *lexer.Lexer) *Parser {
 	p := &Parser{
-		l:      l,
-		errors: []string{},
+		l:                l,
+		errors:           []string{},
+		prefixParseFuncs: map[token.TokenType]prefixParseFn{},
 	}
 
 	p.nextToken() // sets peekToken to the first token
