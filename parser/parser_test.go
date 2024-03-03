@@ -94,14 +94,12 @@ func TestIdentifierExpression(t *testing.T) {
 			len(program.Statements))
 	}
 
-	// assert that the first statement is an expression
 	stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
 	if !ok {
 		t.Fatalf("program.Statements[0] is not ast.ExpressionStatement. got=%T",
 			program.Statements[0])
 	}
 
-	// assert that the expression is an identifier
 	ident, ok := stmt.Expression.(*ast.Identifier)
 	if !ok {
 		t.Fatalf("exp not *ast.Identifier. got=%T", stmt.Expression)
