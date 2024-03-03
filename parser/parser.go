@@ -5,6 +5,7 @@ import (
 	"sanevillain/go-interpreter/ast"
 	"sanevillain/go-interpreter/lexer"
 	"sanevillain/go-interpreter/token"
+	"strconv"
 )
 
 const (
@@ -139,6 +140,20 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 	}
 
 	return stmt
+}
+
+func (p *Parser) parseIntegerLiteral() ast.Expression {
+	lit := &ast.IntegerLiteral{Token: p.curToken}
+
+	value, err := strconv.ParseInt(p.curToken.Literal, 0, 64)
+	if err != nil {
+		msg := fmt.Sprintf("could not parse %q as integer", p.curToken.Literal)
+		p.errors = append(p.errors, msg)
+		return nil
+	}
+
+	lit.Value = value
+	return lit
 }
 
 func (p *Parser) parseExpression(precedence int) ast.Expression {
