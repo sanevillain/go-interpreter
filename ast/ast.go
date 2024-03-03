@@ -45,8 +45,8 @@ func (p *Program) TokenLiteral() string {
 
 // LetStatement is of the form: let <identifier> = <expr>;
 type LetStatement struct {
-	Name  *Identifier // lfs
-	Value Expression  // rhs
+	Name  *Identifier
+	Value Expression
 	Token token.Token // the 'let' token
 }
 
