@@ -7,6 +7,12 @@ import (
 	"sanevillain/go-interpreter/token"
 )
 
+type (
+	prefixParseFn func() ast.Expression
+	// the argument is the "left side" of the operator
+	infixParseFn func(ast.Expression) ast.Expression
+)
+
 type Parser struct {
 	l *lexer.Lexer
 
