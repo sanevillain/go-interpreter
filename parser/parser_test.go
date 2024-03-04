@@ -160,7 +160,7 @@ func TestParsingPrefixExpressions(t *testing.T) {
 		integerValue int64
 	}{
 		{"!5", "!", 5},
-		{"-15", "-", 5},
+		{"-15", "-", 15},
 	}
 
 	for _, tt := range prefixTests {
