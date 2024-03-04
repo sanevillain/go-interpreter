@@ -160,11 +160,17 @@ func (p *Parser) parseIntegerLiteral() ast.Expression {
 func (p *Parser) parseExpression(precedence int) ast.Expression {
 	prefix, ok := p.prefixParseFuncs[p.curToken.Type]
 	if !ok {
+		p.noPrefixParseFnError(p.curToken.Type)
 		return nil
 	}
 
 	leftExp := prefix()
 	return leftExp
+}
+
+func (p *Parser) noPrefixParseFnError(t token.TokenType) {
+	msg := fmt.Sprintf("no prefix parse function for %s found", t)
+	p.errors = append(p.errors, msg)
 }
 
 func (p *Parser) parseIdentifier() ast.Expression {

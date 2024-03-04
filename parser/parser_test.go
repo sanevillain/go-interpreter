@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"fmt"
 	"sanevillain/go-interpreter/ast"
 	"sanevillain/go-interpreter/lexer"
 	"testing"
