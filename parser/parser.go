@@ -56,6 +56,7 @@ func New(l *lexer.Lexer) *Parser {
 		l:                l,
 		errors:           []string{},
 		prefixParseFuncs: map[token.TokenType]prefixParseFn{},
+		infixParseFuncs:  map[token.TokenType]infixParseFn{},
 	}
 
 	p.registerPrefix(token.IDENT, p.parseIdentifier)
