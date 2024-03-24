@@ -383,6 +383,29 @@ func testLiteralExpression(t *testing.T, exp ast.Expression, expected any) bool 
 	return false
 }
 
+func testInfixExpression(t *testing.T, exp ast.Expression, left int64, operator string, right any) bool {
+	opExp, ok := exp.(*ast.InfixExpression)
+	if !ok {
+		t.Errorf("exp is not *ast.InfixExpression. got=%T(%s)", exp, exp)
+		return false
+	}
+
+	if !testLiteralExpression(t, opExp.Left, left) {
+		return false
+	}
+
+	if opExp.Operator != operator {
+		t.Errorf("exp.Operator is not '%s'. got=%q", operator, opExp.Operator)
+		return false
+	}
+
+	if !testLiteralExpression(t, opExp.Right, right) {
+		return false
+	}
+
+	return true
+}
+
 func checkParserErrors(t *testing.T, p *Parser) {
 	errors := p.errors
 
