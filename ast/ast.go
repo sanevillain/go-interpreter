@@ -203,3 +203,20 @@ func (ie *IfExpression) String() string {
 
 	return b.String()
 }
+
+type BlockStatement struct {
+	Token      token.Token // {
+	Statements []Statement
+}
+
+func (bs *BlockStatement) statementNode()       {}
+func (bs *BlockStatement) TokenLiteral() string { return bs.Token.Literal }
+func (bs *BlockStatement) String() string {
+	var b strings.Builder
+
+	for _, s := range bs.Statements {
+		b.WriteString(s.String())
+	}
+
+	return b.String()
+}
