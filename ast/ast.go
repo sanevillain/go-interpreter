@@ -262,10 +262,10 @@ func (ce *CallExpression) String() string {
 		params = append(params, p.String())
 	}
 
-	b.WriteString(ce.TokenLiteral())
+	b.WriteString(ce.Function.String())
 	b.WriteString("(")
 	b.WriteString(strings.Join(params, ", "))
-	b.WriteString(") ")
+	b.WriteString(")")
 
 	return b.String()
 }
