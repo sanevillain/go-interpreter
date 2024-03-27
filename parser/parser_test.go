@@ -583,9 +583,9 @@ func TestCallExpressionParsing(t *testing.T) {
 		t.Fatalf("call expression arguments wrong. want 3, got=%d\n", len(exp.Arguments))
 	}
 
-	testLiteralExpression(t, exp.Arguments[0], "1")
+	testLiteralExpression(t, exp.Arguments[0], 1)
 	testInfixExpression(t, exp.Arguments[1], 2, "*", 3)
-	testInfixExpression(t, exp.Arguments[1], 4, "+", 5)
+	testInfixExpression(t, exp.Arguments[2], 4, "+", 5)
 }
 
 func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
