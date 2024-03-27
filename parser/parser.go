@@ -132,7 +132,6 @@ func (p *Parser) parseStatement() ast.Statement {
 func (p *Parser) parseLetStatement() ast.Statement {
 	stmt := &ast.LetStatement{Token: p.curToken}
 
-	// consume <identifier>
 	if !p.expectPeek(token.IDENT) {
 		return nil
 	}
@@ -142,13 +141,15 @@ func (p *Parser) parseLetStatement() ast.Statement {
 		Value: p.curToken.Literal,
 	}
 
-	// consume <=>
 	if !p.expectPeek(token.ASSIGN) {
 		return nil
 	}
 
-	// ignore expressions for now and just consume until <;>
-	for !p.curTokenIs(token.SEMICOLON) {
+	p.nextToken()
+
+	stmt.Value = p.parseExpression(LOWEST)
+
+	if p.peekTokenIs(token.SEMICOLON) {
 		p.nextToken()
 	}
 
