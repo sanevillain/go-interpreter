@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 	"sanevillain/go-interpreter/lexer"
-	"sanevillain/go-interpreter/token"
+	"sanevillain/go-interpreter/parser"
 )
 
 const PROMPT = ">> "
@@ -22,22 +22,31 @@ func Start(in io.Reader, out io.Writer) {
 
 		line := scanner.Text()
 		l := lexer.New(line)
+		p := parser.New(l)
 
-		for tok := l.NextToken(); tok.Type != token.EOF; tok = l.NextToken() {
-			if line == "exit" || line == "quit" {
-				return
-			}
+		program := p.ParseProgram()
+		if len(p.Errors()) != 0 {
+			printParserErrors(out, p.Errors())
+			continue
+		}
 
-			output := fmt.Sprintf("%+v\n", tok)
+		_, err := io.WriteString(out, program.String())
+		if err != nil {
+			return
+		}
 
-			n, err := out.Write([]byte(output))
-			if n != len(output) {
-				return
-			}
+		_, err = io.WriteString(out, "\n")
+		if err != nil {
+			return
+		}
+	}
+}
 
-			if err != nil {
-				return
-			}
+func printParserErrors(out io.Writer, errors []string) {
+	for _, msg := range errors {
+		_, err := io.WriteString(out, "\t"+msg+"\n")
+		if err != nil {
+			return
 		}
 	}
 }
