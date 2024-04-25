@@ -92,6 +92,23 @@ func TestIfElseExpressions(t *testing.T) {
 	}
 }
 
+func TestReturnStatements(t *testing.T) {
+	testCases := []struct {
+		input    string
+		expected int64
+	}{
+		{"return 10;", 10},
+		{"return 10; 9;", 10},
+		{"return 2 * 5; 9;", 10},
+		{"9; return 2 * 5; 9;", 10},
+	}
+
+	for _, tC := range testCases {
+		evaluated := testEval(tC.input)
+		testIntegerObject(t, evaluated, tC.expected)
+	}
+}
+
 func TestBangOperator(t *testing.T) {
 	testCases := []struct {
 		input    string
