@@ -47,6 +47,10 @@ func TestErrorHandling(t *testing.T) {
             `,
 			"unknown operator: BOOLEAN + BOOLEAN",
 		},
+		{
+			"foobar",
+			"identifier not found: foobar",
+		},
 	}
 
 	for _, tC := range testCases {
@@ -186,6 +190,23 @@ func TestBangOperator(t *testing.T) {
 	}
 }
 
+func TestLetStatement(t *testing.T) {
+	testCases := []struct {
+		input    string
+		expected int64
+	}{
+		{"let a = 5; a;", 5},
+		{"let a = 5 * 5; a;", 25},
+		{"let a = 5; let b = a; b", 5},
+		{"let a = 5; let b = a; let c = a + b + 5; c", 15},
+	}
+
+	for _, tC := range testCases {
+		evaluated := testEval(tC.input)
+		testIntegerObject(t, evaluated, tC.expected)
+	}
+}
+
 func testNullObject(t *testing.T, obj object.Object) bool {
 	if obj != NULL {
 		t.Errorf("object is not NULL. got=%T (%+v)", obj, obj)
@@ -229,6 +250,7 @@ func testEval(input string) object.Object {
 	l := lexer.New(input)
 	p := parser.New(l)
 	program := p.ParseProgram()
+	env := object.NewEnvironment()
 
-	return Eval(program)
+	return Eval(program, env)
 }
