@@ -1,6 +1,10 @@
 package object
 
-import "fmt"
+import (
+	"fmt"
+	"sanevillain/go-interpreter/ast"
+	"strings"
+)
 
 type ObjectType string
 
@@ -8,6 +12,7 @@ const (
 	ERROR_OBJ        = "ERROR"
 	INTEGER_OBJ      = "INTEGER"
 	BOOLEAN_OBJ      = "BOOLEAN"
+	FUNCTION_OBJ     = "FUNCTION"
 	NULL_OBJ         = "NULL"
 	RETURN_VALUE_OBJ = "RETURN_VALUE"
 )
@@ -51,6 +56,33 @@ func (b *Boolean) Type() ObjectType {
 
 func (b *Boolean) Inspect() string {
 	return fmt.Sprintf("%t", b.Value)
+}
+
+type Function struct {
+	Parameters []*ast.Identifier
+	Body       *ast.BlockStatement
+	Env        *Environment
+}
+
+func (f *Function) Type() ObjectType {
+	return FUNCTION_OBJ
+}
+
+func (f *Function) Inspect() string {
+	var b strings.Builder
+
+	params := []string{}
+	for _, p := range f.Parameters {
+		params = append(params, p.String())
+	}
+
+	b.WriteString("fn(")
+	b.WriteString(strings.Join(params, ", "))
+	b.WriteString(") {\n")
+	b.WriteString(f.Body.String())
+	b.WriteString("\n}")
+
+	return b.String()
 }
 
 type Null struct{}
