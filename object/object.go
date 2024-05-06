@@ -6,7 +6,16 @@ import (
 	"strings"
 )
 
-type ObjectType string
+type (
+	ObjectType string
+
+	Object interface {
+		Type() ObjectType
+		Inspect() string
+	}
+
+	BuiltinFunction func(args ...Object) Object
+)
 
 const (
 	ERROR_OBJ        = "ERROR"
@@ -28,11 +37,6 @@ func (e *Error) Type() ObjectType {
 
 func (e *Error) Inspect() string {
 	return "ERROR: " + e.Message
-}
-
-type Object interface {
-	Type() ObjectType
-	Inspect() string
 }
 
 type Integer struct {
