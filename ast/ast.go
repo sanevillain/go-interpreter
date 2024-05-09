@@ -300,3 +300,23 @@ func (al *ArrayLiteral) String() string {
 
 	return b.String()
 }
+
+type IndexExpression struct {
+	Token token.Token // [
+	Left  Expression
+	Index Expression
+}
+
+func (ie *IndexExpression) expressionNode()      {}
+func (ie *IndexExpression) TokenLiteral() string { return ie.Token.Literal }
+func (ie *IndexExpression) String() string {
+	var b strings.Builder
+
+	b.WriteString("(")
+	b.WriteString(ie.Left.String())
+	b.WriteString("[")
+	b.WriteString(ie.Index.String())
+	b.WriteString("])")
+
+	return b.String()
+}
