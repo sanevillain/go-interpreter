@@ -26,6 +26,7 @@ const (
 	NULL_OBJ         = "NULL"
 	RETURN_VALUE_OBJ = "RETURN_VALUE"
 	BUILTIN_OBJ      = "BUILTIN"
+	ARRAY_OBJ        = "ARRAY"
 )
 
 type Error struct {
@@ -135,4 +136,27 @@ func (b *Builtin) Type() ObjectType {
 
 func (b *Builtin) Inspect() string {
 	return "builtin function"
+}
+
+type Array struct {
+	Elements []Object
+}
+
+func (a *Array) Type() ObjectType {
+	return ARRAY_OBJ
+}
+
+func (a *Array) Inspect() string {
+	var b strings.Builder
+
+	elements := []string{}
+	for _, e := range a.Elements {
+		elements = append(elements, e.Inspect())
+	}
+
+	b.WriteString("[")
+	b.WriteString(strings.Join(elements, ", "))
+	b.WriteString("]")
+
+	return b.String()
 }
