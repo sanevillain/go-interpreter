@@ -2,6 +2,7 @@ package object
 
 import (
 	"fmt"
+	"hash/fnv"
 	"sanevillain/go-interpreter/ast"
 	"strings"
 )
@@ -191,6 +192,34 @@ func (a *Array) Inspect() string {
 	b.WriteString("[")
 	b.WriteString(strings.Join(elements, ", "))
 	b.WriteString("]")
+
+	return b.String()
+}
+
+type HashPair struct {
+	Key   Object
+	Value Object
+}
+
+type Hash struct {
+	Pairs map[HashKey]HashPair
+}
+
+func (h *Hash) Type() ObjectType {
+	return HASH_OBJ
+}
+
+func (h *Hash) Inspect() string {
+	var b strings.Builder
+
+	pairs := []string{}
+	for _, pair := range h.Pairs {
+		pairs = append(pairs, fmt.Sprintf("%s: %s", pair.Key.Inspect(), pair.Value.Inspect()))
+	}
+
+	b.WriteString("{")
+	b.WriteString(strings.Join(pairs, ", "))
+	b.WriteString("}")
 
 	return b.String()
 }
