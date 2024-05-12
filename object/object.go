@@ -9,9 +9,20 @@ import (
 type (
 	ObjectType string
 
+	HashKey struct {
+		Type  ObjectType
+		Value uint64
+	}
+)
+
+type (
 	Object interface {
 		Type() ObjectType
 		Inspect() string
+	}
+
+	Hashable interface {
+		HashKey() HashKey
 	}
 
 	BuiltinFunction func(args ...Object) Object
@@ -27,6 +38,7 @@ const (
 	RETURN_VALUE_OBJ = "RETURN_VALUE"
 	BUILTIN_OBJ      = "BUILTIN"
 	ARRAY_OBJ        = "ARRAY"
+	HASH_OBJ         = "HASH"
 )
 
 type Error struct {
@@ -53,6 +65,10 @@ func (i *Integer) Inspect() string {
 	return fmt.Sprintf("%d", i.Value)
 }
 
+func (i *Integer) HashKey() HashKey {
+	return HashKey{Type: i.Type(), Value: uint64(i.Value)}
+}
+
 type String struct {
 	Value string
 }
@@ -65,6 +81,12 @@ func (s *String) Inspect() string {
 	return s.Value
 }
 
+func (s *String) HashKey() HashKey {
+	h := fnv.New64a()
+	h.Write([]byte(s.Value))
+	return HashKey{Type: s.Type(), Value: h.Sum64()}
+}
+
 type Boolean struct {
 	Value bool
 }
@@ -75,6 +97,18 @@ func (b *Boolean) Type() ObjectType {
 
 func (b *Boolean) Inspect() string {
 	return fmt.Sprintf("%t", b.Value)
+}
+
+func (b *Boolean) HashKey() HashKey {
+	var value uint64
+
+	if b.Value {
+		value = 1
+	} else {
+		value = 0
+	}
+
+	return HashKey{Type: b.Type(), Value: value}
 }
 
 type Function struct {
