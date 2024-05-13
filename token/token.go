@@ -7,7 +7,7 @@ const (
 	// IDENTIFIERS + LITERALS
 	IDENT  = "IDENT"
 	INT    = "INT"
-	STRING = "STRING "
+	STRING = "STRING"
 
 	// OPERATORS
 	ASSIGN   = "="
@@ -45,16 +45,6 @@ const (
 	RETURN   = "RETURN"
 )
 
-var keywords = map[string]TokenType{
-	"fn":     FUNCTION,
-	"let":    LET,
-	"true":   TRUE,
-	"false":  FALSE,
-	"if":     IF,
-	"else":   ELSE,
-	"return": RETURN,
-}
-
 type TokenType string
 
 type Token struct {
@@ -62,11 +52,9 @@ type Token struct {
 	Literal string
 }
 
-func LookupIdent(ident string) TokenType {
-	tok, ok := keywords[ident]
-	if ok {
-		return tok
+func New(tokenType TokenType, literal string) Token {
+	return Token{
+		Type:    tokenType,
+		Literal: literal,
 	}
-
-	return IDENT
 }
