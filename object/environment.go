@@ -6,27 +6,17 @@ type Environment struct {
 }
 
 func NewEnclosedEnvironemnt(outer *Environment) *Environment {
-	env := NewEnvironment()
-	env.outer = outer
-	return env
+	return nil
 }
 
 func NewEnvironment() *Environment {
-	return &Environment{
-		store: map[string]Object{},
-	}
+	return nil
 }
 
 func (e *Environment) Get(name string) (Object, bool) {
-	val, ok := e.store[name]
-	if !ok && e.outer != nil {
-		val, ok = e.outer.Get(name)
-	}
-
-	return val, ok
+	return nil, false
 }
 
 func (e *Environment) Set(name string, val Object) Object {
-	e.store[name] = val
-	return val
+	return nil
 }
